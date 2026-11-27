@@ -4,7 +4,7 @@ Classification of significant NIFTY 50 movements over five trading sessions usin
 
 ## Research notebook
 
-[`notebooks/KAIROS.ipynb`](notebooks/KAIROS.ipynb) contains the complete executable research workflow through feature ablation and final configuration selection. Open it in Google Colab from the repository's `main` branch.
+[`notebooks/KAIROS.ipynb`](notebooks/KAIROS.ipynb) contains the complete executable research workflow through final test evaluation. Open it in Google Colab from the repository's `main` branch.
 
 Place `KAIROS_NIFTY50_NSE_2006_2026.csv` and `KAIROS_INDIA_VIX_2008_2026.csv` in the working directory, or set `KAIROS_DATA_DIR` to the directory containing them. Run the notebook in order. It generates a six-column `KAIROS_COMBINED_CLEANED.csv` and a separate `KAIROS_VIX_IMPUTATION_AUDIT.csv`. The optional live acquisition code is not run by default.
 
@@ -24,6 +24,8 @@ Place `KAIROS_NIFTY50_NSE_2006_2026.csv` and `KAIROS_INDIA_VIX_2008_2026.csv` in
 | `src/gradient_boosting.py` | Sequential multiclass gradient boosting |
 | `src/tuning.py` | Training-only expanding-window grid search |
 | `src/ablation.py` | Matched feature-set comparisons and CV selection |
+| `src/final_evaluation.py` | Test prediction records and score checks |
+| `tests/test_final_evaluation.py` | Prediction alignment and probability checks |
 | `tests/test_ablation.py` | Feature-set and selection-independence tests |
 | `docs/selected_model.json` | Locked configuration before final test scoring |
 | `tests/test_tuning.py` | Fold gap, outcome date and grid checks |
@@ -60,7 +62,10 @@ Place `KAIROS_NIFTY50_NSE_2006_2026.csv` and `KAIROS_INDIA_VIX_2008_2026.csv` in
 - Ablation study: same 36-configuration grid repeated with five price-only features, using matched rows and folds. Across both grids, 72 configurations and 288 CV fits.
 - Random forest with VIX selected by highest mean training-fold macro F1 (0.3887568264467185); price-only forest 0.3730. Validation macro F1: 0.4422 with VIX vs 0.4180 without VIX. All four tuned families improved on validation with VIX, but CV evidence is mixed across families.
 - Final configuration locked: balanced random forest, 200 trees, depth 8, minimum leaf size 10, sqrt feature sampling, bootstrap enabled, random seed 42, all seven features. Fitted on original training rows only.
-- Test scoring and dashboard implementation remain pending. The repeatedly examined validation period is exploratory.
+- Final test evaluation (603 rows, forecast dates 2024-06-04 to 2026-11-06): selected forest macro F1 0.4091, accuracy 0.8159, balanced accuracy 0.3926; price-only forest macro F1 0.3839; momentum 0.3647; majority class 0.3143.
+- Selected forest correctly classified 12 of 42 major rises and none of 23 major declines. It incorrectly flagged 58 ordinary observations as major. Configuration remains unchanged.
+- Section 17 exports test prediction records and aggregate metrics locally. The repeated validation comparisons are exploratory; test outcomes overlap and scores are uncalibrated. Reliable trading performance is not established.
+- Explainability, model packaging and dashboard implementation remain pending.
 
 ## Limitations
 
