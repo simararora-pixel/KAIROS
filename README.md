@@ -4,7 +4,7 @@ Classification of significant NIFTY 50 movements over five trading sessions usin
 
 ## Research notebook
 
-[`notebooks/KAIROS.ipynb`](notebooks/KAIROS.ipynb) contains the complete executable research workflow through baseline model evaluation. Open it in Google Colab from the repository's `main` branch.
+[`notebooks/KAIROS.ipynb`](notebooks/KAIROS.ipynb) contains the complete executable research workflow through multiclass logistic regression. Open it in Google Colab from the repository's `main` branch.
 
 Place `KAIROS_NIFTY50_NSE_2006_2026.csv` and `KAIROS_INDIA_VIX_2008_2026.csv` in the working directory, or set `KAIROS_DATA_DIR` to the directory containing them. Run the notebook in order. It generates a six-column `KAIROS_COMBINED_CLEANED.csv` and a separate `KAIROS_VIX_IMPUTATION_AUDIT.csv`. The optional live acquisition code is not run by default.
 
@@ -18,6 +18,8 @@ Place `KAIROS_NIFTY50_NSE_2006_2026.csv` and `KAIROS_INDIA_VIX_2008_2026.csv` in
 | `src/targets.py` | Five-session classification labels |
 | `src/dataset.py` | Partition-safe dataset assembly |
 | `src/baseline.py` | Majority-class and momentum benchmarks |
+| `src/logistic.py` | Standardized multinomial logistic regression |
+| `tests/test_logistic.py` | Training-only scaling and probability checks |
 | `tests/test_baseline.py` | Benchmark and metric checks |
 | `tests/test_targets.py` | Threshold and partition boundary tests |
 | `requirements.txt` | Python dependencies |
@@ -35,7 +37,8 @@ Place `KAIROS_NIFTY50_NSE_2006_2026.csv` and `KAIROS_INDIA_VIX_2008_2026.csv` in
 - Seven model inputs, five unlabelled recent prediction rows.
 - Section 9 exports all datasets and a preparation audit to `kairos_datasets/` (override with `KAIROS_OUTPUT_DIR`).
 - Baseline models evaluated on validation only. Majority-class macro F1: 0.3133; momentum macro F1: 0.3338.
-- Advanced model training, final test evaluation and dashboard implementation remain pending.
+- Logistic regression validation macro F1: 0.3133 (unweighted) and 0.4385 (balanced); balanced accuracy: 0.4929 for the balanced model.
+- Further model comparison, tuning, final test evaluation and dashboard implementation remain pending.
 
 ## Limitations
 
