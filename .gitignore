@@ -1,0 +1,27 @@
+# Python and notebook caches
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.pytest_cache/
+.venv/
+venv/
+
+# Local market data and derived datasets
+data/raw/
+data/processed/
+data/features/
+*.csv
+*.parquet
+
+# Trained model artifacts
+models/*.joblib
+models/*.pkl
+
+# Local credentials and settings
+.env
+.env.*
+.streamlit/secrets.toml
+
+# OS files
+.DS_Store
+Thumbs.db
