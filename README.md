@@ -4,7 +4,7 @@ Classification of significant NIFTY 50 movements over five trading sessions usin
 
 ## Research notebook
 
-[`notebooks/KAIROS.ipynb`](notebooks/KAIROS.ipynb) contains the complete executable research workflow through final dataset preparation. Open it in Google Colab from the repository's `main` branch.
+[`notebooks/KAIROS.ipynb`](notebooks/KAIROS.ipynb) contains the complete executable research workflow through baseline model evaluation. Open it in Google Colab from the repository's `main` branch.
 
 Place `KAIROS_NIFTY50_NSE_2006_2026.csv` and `KAIROS_INDIA_VIX_2008_2026.csv` in the working directory, or set `KAIROS_DATA_DIR` to the directory containing them. Run the notebook in order. It generates a six-column `KAIROS_COMBINED_CLEANED.csv` and a separate `KAIROS_VIX_IMPUTATION_AUDIT.csv`. The optional live acquisition code is not run by default.
 
@@ -17,6 +17,8 @@ Place `KAIROS_NIFTY50_NSE_2006_2026.csv` and `KAIROS_INDIA_VIX_2008_2026.csv` in
 | `src/features.py` | Trailing market and VIX predictors |
 | `src/targets.py` | Five-session classification labels |
 | `src/dataset.py` | Partition-safe dataset assembly |
+| `src/baseline.py` | Majority-class and momentum benchmarks |
+| `tests/test_baseline.py` | Benchmark and metric checks |
 | `tests/test_targets.py` | Threshold and partition boundary tests |
 | `requirements.txt` | Python dependencies |
 | `data/` | Local datasets (not committed) |
@@ -32,7 +34,8 @@ Place `KAIROS_NIFTY50_NSE_2006_2026.csv` and `KAIROS_INDIA_VIX_2008_2026.csv` in
 - Final labelled research dataset: 4,013 rows, 16 columns; training 2,810, validation 600, test 603.
 - Seven model inputs, five unlabelled recent prediction rows.
 - Section 9 exports all datasets and a preparation audit to `kairos_datasets/` (override with `KAIROS_OUTPUT_DIR`).
-- No model training or dashboard implementation yet.
+- Baseline models evaluated on validation only. Majority-class macro F1: 0.3133; momentum macro F1: 0.3338.
+- Advanced model training, final test evaluation and dashboard implementation remain pending.
 
 ## Limitations
 
