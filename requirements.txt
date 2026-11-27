@@ -5,3 +5,5 @@ joblib==1.5.3
 matplotlib
 requests
 pytest
+
+shap==0.50.0
