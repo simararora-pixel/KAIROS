@@ -24,10 +24,12 @@ Target: five-trading-session net return below -3% (Major Down), above +3% (Major
 | Accuracy | 0.7717 | 0.8159 |
 | Macro F1 | 0.4422 | 0.4091 |
 | Balanced accuracy | 0.4910 | 0.3926 |
-| Major Down recall | 0.3714 | 0 |
+| Major Down recall | 0.3714 | No declines detected (23 cases) |
 | Major Up recall | 0.2727 | 0.2857 |
 
 All 603 historical test predictions and their class scores reproduced the locked V1 reference. The majority rule has 0.8922 test accuracy and 0.3143 macro F1. The historical period is already inspected; this is not independent validation. The model missed all 23 major declines and is not reliable for trading. Class scores are uncalibrated. The target windows overlap.
+
+**Future improvement target:** Major Down recall of at least 0.283 (28.3%) on a new chronological evaluation period. This is an aspirational benchmark, not an achieved historical result. The current model did not correctly classify any of the 23 historical test declines. On a set of 23 declines, meeting the target would require at least seven correct classifications.
 
 ## Outputs
 
