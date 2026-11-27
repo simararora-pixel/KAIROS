@@ -1,0 +1,20 @@
+{
+  "family": "Forest",
+  "feature_set": "With VIX",
+  "features": [
+    "Return_1d",
+    "Return_5d",
+    "Volatility_20d",
+    "MA_20_gap_pct",
+    "Intraday_range_pct",
+    "VIX_Close",
+    "VIX_change_1d"
+  ],
+  "parameters": {
+    "class_weight": "balanced",
+    "max_depth": 8,
+    "min_samples_leaf": 10
+  },
+  "criterion": "Highest mean training-fold macro F1",
+  "mean_cv_macro_f1": 0.3887568264467185
+}
