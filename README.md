@@ -38,3 +38,7 @@ python predict.py --input example_inputs.csv --output predictions.csv
 ```
 
 The input must contain Date and the seven named features. Use the same scikit-learn version as the bundle. Raw market data and model binaries remain local. Earlier experiments remain recoverable via GitHub history; they are not part of the active model. AI-assisted development was used; independently review results.
+
+## Explainable AI
+
+Section 14 adds impurity importance, validation permutation importance (20 repeats, macro F1), and path-dependent Tree SHAP for the unchanged single forest. VIX Close (0.0418) and trailing 20-session volatility (0.0238) rank highest by mean validation permutation importance. Test and latest snapshot SHAP values reconstruct all class scores; the notebook checks additivity and reproduces the same 603 test predictions. Exports are stored under `kairos_datasets/xai/`. These explanations describe the model, not market causality; permutation importance is affected by temporal dependence and correlated features. The missed-decline case on 2024-07-29 received an ordinary score of 0.8553 but realized a -3.1426% forward return. Dashboard remains pending.
