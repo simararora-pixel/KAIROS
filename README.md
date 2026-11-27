@@ -1,23 +1,35 @@
 # KAIROS
 
-Machine learning project for studying NIFTY 50 market movements.
+Classification of significant NIFTY 50 movements over five trading sessions using historical OHLC prices and India VIX.
 
-## Development workflow
+## Research notebook
 
-Research and experiments will be maintained in an executable Google Colab notebook. Reusable Python code, tests and a Streamlit dashboard will be organized separately as development progresses.
+[`notebooks/KAIROS.ipynb`](notebooks/KAIROS.ipynb) contains the complete executable research workflow through target creation. Open it in Google Colab from the repository's `main` branch.
 
-## Planned layout
+Place `KAIROS_NIFTY50_NSE_2006_2026.csv` and `KAIROS_INDIA_VIX_2008_2026.csv` in the working directory, or set `KAIROS_DATA_DIR` to the directory containing them. Run the notebook in order. It generates `KAIROS_COMBINED_CLEANED.csv`. The optional live acquisition code is not run by default.
+
+## Project layout
 
 | Path | Purpose |
 | --- | --- |
 | `notebooks/` | Research notebook |
-| `src/` | Reusable Python modules |
-| `data/` | Local input and generated data (not committed) |
-| `models/` | Local trained model artifacts |
-| `dashboard/` | Streamlit application |
-| `tests/` | Data and model checks |
-| `docs/` | Methodology and project notes |
+| `src/preprocessing.py` | Reusable data preparation |
+| `src/features.py` | Trailing market and VIX predictors |
+| `src/targets.py` | Five-session classification labels |
+| `tests/test_targets.py` | Threshold and partition boundary tests |
+| `requirements.txt` | Python dependencies |
+| `data/` | Local datasets (not committed) |
+| `models/` | Planned model artifacts |
+| `dashboard/` | Planned Streamlit application |
 
-## Status
+## Current checkpoint
 
-Repository setup. No trained model or dashboard has been published yet. Market data is kept outside version control pending confirmation of redistribution permissions.
+- Data preprocessing: 4,050 aligned observations.
+- Training-period exploratory analysis and eight candidate features.
+- Chronological 70/15/15 split, with five-session target boundary exclusions.
+- 2,810 eligible training rows after feature warm-up and target filtering.
+- No model training or dashboard implementation yet.
+
+## Limitations
+
+The provisional ±3% threshold is a research choice. The historical snapshot has been examined in earlier experiments; the test period is a procedural holdout, not independent external validation. Data redistribution permissions remain unverified, so CSV files and notebook outputs are not committed. AI-assisted development and editing were used; the implementation and results require independent review.
