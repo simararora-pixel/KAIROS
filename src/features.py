@@ -13,7 +13,6 @@ def make_features(data):
     features['Intraday_range_pct'] = (data['High'] - data['Low']) / data['Open'] * 100
     features['VIX_Close'] = vix_close
     features['VIX_change_1d'] = vix_close.pct_change(fill_method=None) * 100
-    features['VIX_missing'] = data['VIX_missing']
     # Mark changes involving an imputed VIX as missing rather than inventing a move.
     unreliable = data['VIX_missing'].eq(1) | data['VIX_missing'].shift(1, fill_value=0).eq(1)
     features.loc[unreliable, 'VIX_change_1d'] = np.nan
