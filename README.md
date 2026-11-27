@@ -53,3 +53,11 @@ python -m streamlit run app.py
 ```
 
 Upload the combined CSV in the sidebar (or put it in kairos_datasets/). Eight tabs cover the market snapshot, dataset, technical indicators, historical prediction, reveal/hide replay, performance, SHAP, and methodology. The app reconstructs the same fixed forest from training rows only and caches it; no tuning or additional estimator is used. No live feed. Actual outcomes in replay are hidden by default; choose a date and tick/untick Reveal actual outcome. Other analytics tabs show historical results openly. Browser and real-data integration testing are still required.
+
+## Local dashboard
+
+Run `python -m streamlit run dashboard/app.py` from the repository root after installing requirements. The eight native tabs cover overview, datasets, market analysis, prediction engine, historical simulator, performance, explainable AI and methodology. Exactly one saved Random Forest is used; the simulator uses only the eligible historical test inputs and reveals actual outcomes via a checkbox. Latest forecasts are unlabelled historical snapshot observations, not live signals.
+
+Use the complete downloadable local dashboard package, or put the two original raw CSVs under `data/` and run the notebook with KAIROS_DATA_DIR pointing there and KAIROS_OUTPUT_DIR pointing to the repository-root `kairos_datasets/`. Copy KAIROS_COMBINED_CLEANED.csv and KAIROS_VIX_IMPUTATION_AUDIT.csv from the input directory into `kairos_datasets/`. The repository does not include raw market data or fitted model binaries. Use trusted local artifacts and the pinned scikit-learn version.
+
+The three dashboard backend tests passed using the supplied snapshot, including identical saved predictions and SHAP scores, metrics reconciliation and reveal/hide logic. All eight tabs' Python rendering paths were exercised against a mock Streamlit interface. Full Streamlit server and browser verification is pending: installation was unavailable in the development environment. The source snapshot contains 19 weekend-dated aligned observations that may include special trading sessions; official calendar reconciliation is pending. No model settings or data were changed for this dashboard. The application is educational and offline after dependency installation.
