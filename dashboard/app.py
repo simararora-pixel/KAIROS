@@ -140,7 +140,7 @@ with tabs[6]:
     dates=w['latest' if latest else 'test'].Date.tolist()
     date=st.selectbox('Explanation date',dates,key='xai_date')
     f=forecast(w,date,latest=latest)
-    label=st.selectbox('Explain class',list(LABELS),index=list(LABELS).index(f['prediction']),format_func=LABELS.get,key='xai_class')
+    label=st.selectbox('Explain class',list(LABELS),index=list(LABELS).index(f['prediction']),format_func=LABELS.get,key=f'xai_class_{scope}_{date}')
     ex=explanation(w,date,label,latest=latest)
     a,b=st.columns(2); a.metric('Base score',f"{ex.Base_score.iloc[0]:.2%}"); b.metric('Model score',f"{ex.Model_score.iloc[0]:.2%}")
     ex['Contribution (pp)']=ex.SHAP*100; ex['Effect']=ex.SHAP.ge(0).map({True:'Increases score',False:'Decreases score'})
