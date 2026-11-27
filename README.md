@@ -4,7 +4,7 @@ Classification of significant NIFTY 50 movements over five trading sessions usin
 
 ## Research notebook
 
-[`notebooks/KAIROS.ipynb`](notebooks/KAIROS.ipynb) contains the complete executable research workflow through chronological hyperparameter tuning. Open it in Google Colab from the repository's `main` branch.
+[`notebooks/KAIROS.ipynb`](notebooks/KAIROS.ipynb) contains the complete executable research workflow through feature ablation and final configuration selection. Open it in Google Colab from the repository's `main` branch.
 
 Place `KAIROS_NIFTY50_NSE_2006_2026.csv` and `KAIROS_INDIA_VIX_2008_2026.csv` in the working directory, or set `KAIROS_DATA_DIR` to the directory containing them. Run the notebook in order. It generates a six-column `KAIROS_COMBINED_CLEANED.csv` and a separate `KAIROS_VIX_IMPUTATION_AUDIT.csv`. The optional live acquisition code is not run by default.
 
@@ -23,6 +23,9 @@ Place `KAIROS_NIFTY50_NSE_2006_2026.csv` and `KAIROS_INDIA_VIX_2008_2026.csv` in
 | `src/random_forest.py` | Bootstrap random forest candidates |
 | `src/gradient_boosting.py` | Sequential multiclass gradient boosting |
 | `src/tuning.py` | Training-only expanding-window grid search |
+| `src/ablation.py` | Matched feature-set comparisons and CV selection |
+| `tests/test_ablation.py` | Feature-set and selection-independence tests |
+| `docs/selected_model.json` | Locked configuration before final test scoring |
 | `tests/test_tuning.py` | Fold gap, outcome date and grid checks |
 | `tests/test_gradient_boosting.py` | Stage structure and sample weight checks |
 | `tests/test_random_forest.py` | Probability aggregation and reproducibility checks |
@@ -54,7 +57,10 @@ Place `KAIROS_NIFTY50_NSE_2006_2026.csv` and `KAIROS_INDIA_VIX_2008_2026.csv` in
 - Hyperparameter search: 36 configurations, four chronological folds, 144 CV fits, five-session gaps with outcome-date checks. Each family winner is refitted on all training observations.
 - Tuned validation macro F1: Logistic 0.4365, Tree 0.3760, Forest 0.4422, Boosting 0.4076. Tuned forest also has the highest mean CV macro F1 (0.3888).
 - Section 15 exports the grid-search diagnostics to `KAIROS_CV_SEARCH.csv` in the dataset export directory.
-- Final model selection, test scoring and dashboard implementation remain pending. The repeatedly examined validation period is exploratory.
+- Ablation study: same 36-configuration grid repeated with five price-only features, using matched rows and folds. Across both grids, 72 configurations and 288 CV fits.
+- Random forest with VIX selected by highest mean training-fold macro F1 (0.3887568264467185); price-only forest 0.3730. Validation macro F1: 0.4422 with VIX vs 0.4180 without VIX. All four tuned families improved on validation with VIX, but CV evidence is mixed across families.
+- Final configuration locked: balanced random forest, 200 trees, depth 8, minimum leaf size 10, sqrt feature sampling, bootstrap enabled, random seed 42, all seven features. Fitted on original training rows only.
+- Test scoring and dashboard implementation remain pending. The repeatedly examined validation period is exploratory.
 
 ## Limitations
 
