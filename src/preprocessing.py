@@ -38,7 +38,6 @@ def prepare_data(nifty, vix):
 
     df = aligned.merge(vix_aligned, on="Date", how="left", validate="one_to_one")
     df["VIX_missing"] = df.VIX_Close.isna().astype(int)
-    # Use past observations only; retain a flag for the imputed value.
     df["VIX_Close"] = df.VIX_Close.ffill()
     assert df.notna().all().all()
     assert len(df) == len(aligned)
