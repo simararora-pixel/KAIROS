@@ -41,8 +41,15 @@ The input must contain Date and the seven named features. Use the same scikit-le
 
 ## Explainable AI
 
-Section 14 adds impurity importance, validation permutation importance (20 repeats, macro F1), and path-dependent Tree SHAP for the unchanged single forest. VIX Close (0.0418) and trailing 20-session volatility (0.0238) rank highest by mean validation permutation importance. Test and latest snapshot SHAP values reconstruct all class scores; the notebook checks additivity and reproduces the same 603 test predictions. Exports are stored under `kairos_datasets/xai/`. These explanations describe the model, not market causality; permutation importance is affected by temporal dependence and correlated features. The missed-decline case on 2024-07-29 received an ordinary score of 0.8553 but realized a -3.1426% forward return. Dashboard remains pending.
+Section 14 adds impurity importance, validation permutation importance (20 repeats, macro F1), and path-dependent Tree SHAP for the unchanged single forest. VIX Close (0.0418) and trailing 20-session volatility (0.0238) rank highest by mean validation permutation importance. Test and latest snapshot SHAP values reconstruct all class scores; the notebook checks additivity and reproduces the same 603 test predictions. Exports are stored under `kairos_datasets/xai/`. These explanations describe the model, not market causality; permutation importance is affected by temporal dependence and correlated features. The missed-decline case on 2024-07-29 received an ordinary score of 0.8553 but realized a -3.1426% forward return. 
 
-## Explainability
+## Local Streamlit dashboard
 
-Section 14 adds impurity importance, 20-repeat validation permutation importance (macro F1), and class-specific Tree SHAP explanations for all 603 historical test rows and the latest snapshot. VIX Close and trailing 20-session volatility rank highest by both global methods. SHAP additivity is verified against model scores. No new estimator or tuning is introduced; the original test predictions are unchanged. The missed decline on 2024-07-29 is a diagnostic example, not evidence of market causation. Install shap==0.50.0 as specified in requirements.txt. Outputs are under kairos_datasets/xai/.
+Run the Colab notebook and download its exported `KAIROS_FINAL_DATASET.csv`. From the repository directory on your computer:
+
+```bash
+python -m pip install -r requirements.txt
+python -m streamlit run app.py
+```
+
+Upload the combined CSV in the sidebar (or put it in kairos_datasets/). Eight tabs cover the market snapshot, dataset, technical indicators, historical prediction, reveal/hide replay, performance, SHAP, and methodology. The app reconstructs the same fixed forest from training rows only and caches it; no tuning or additional estimator is used. No live feed. Actual outcomes in replay are hidden by default; choose a date and tick/untick Reveal actual outcome. Other analytics tabs show historical results openly. Browser and real-data integration testing are still required.

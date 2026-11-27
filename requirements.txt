@@ -7,3 +7,4 @@ requests
 pytest
 
 shap==0.50.0
+streamlit>=1.40,<2
