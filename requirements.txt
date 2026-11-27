@@ -8,3 +8,5 @@ pytest
 
 shap==0.50.0
 streamlit>=1.40,<2
+streamlit>=1.45,<2
+plotly==6.5.2
