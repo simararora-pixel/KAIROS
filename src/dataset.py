@@ -26,7 +26,6 @@ def build_datasets(df, X, partitions, make_targets):
         feature_ok = features.notna().all(axis=1)
         target_ok = labels.Target.notna()
         eligible = feature_ok & target_ok
-        # VIX_Close is already present among the market columns.
         joined = market[MARKET_COLUMNS].join(features.drop(columns='VIX_Close')).join(labels)
         joined['Partition'] = name
         part = joined.loc[eligible].copy()
@@ -47,7 +46,6 @@ def build_datasets(df, X, partitions, make_targets):
     assert len(final) == sum(len(part) for part in datasets.values())
     for left, right in [('train', 'validation'), ('validation', 'test')]:
         assert datasets[left].Outcome_date.max() < datasets[right].Date.min()
-    # Prediction inputs: latest five sessions with complete features but unknown outcomes.
     recent = df.tail(5)
     recent_features = X.loc[recent.index]
     prediction = recent[['Date']].join(recent_features).dropna().copy()
