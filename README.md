@@ -76,3 +76,7 @@ Place `KAIROS_NIFTY50_NSE_2006_2026.csv` and `KAIROS_INDIA_VIX_2008_2026.csv` in
 ## Limitations
 
 The provisional ±3% threshold is a research choice. The historical snapshot has been examined in earlier experiments; the test period is a procedural holdout for V1 and an already-inspected retrospective comparison for V2, not independent external validation. Data redistribution permissions remain unverified, so CSV files and notebook outputs are not committed. AI-assisted development and editing were used; the implementation and results require independent review.
+
+## Pending FII/DII experiment
+
+Section 20 integrates only daily FII/FPI and DII combined-exchange cash market flows. Supply `KAIROS_FII.csv` and `KAIROS_DII.csv` with ISO `Date`, `Buy`, `Sell`, `Net` in INR crore. It compares identical rows and fixed forest settings, with lagged features, chronological folds and coverage checks. Source publication timing must be verified. No genuine flow archive was retrieved and no improvement metrics have been generated. `src/flows.py` and `tests/test_flows.py` implement and test the alignment.
