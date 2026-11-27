@@ -6,7 +6,7 @@ Classification of significant NIFTY 50 movements over five trading sessions usin
 
 [`notebooks/KAIROS.ipynb`](notebooks/KAIROS.ipynb) contains the complete executable research workflow through target creation. Open it in Google Colab from the repository's `main` branch.
 
-Place `KAIROS_NIFTY50_NSE_2006_2026.csv` and `KAIROS_INDIA_VIX_2008_2026.csv` in the working directory, or set `KAIROS_DATA_DIR` to the directory containing them. Run the notebook in order. It generates `KAIROS_COMBINED_CLEANED.csv`. The optional live acquisition code is not run by default.
+Place `KAIROS_NIFTY50_NSE_2006_2026.csv` and `KAIROS_INDIA_VIX_2008_2026.csv` in the working directory, or set `KAIROS_DATA_DIR` to the directory containing them. Run the notebook in order. It generates a six-column `KAIROS_COMBINED_CLEANED.csv` and a separate `KAIROS_VIX_IMPUTATION_AUDIT.csv`. The optional live acquisition code is not run by default.
 
 ## Project layout
 
@@ -25,7 +25,7 @@ Place `KAIROS_NIFTY50_NSE_2006_2026.csv` and `KAIROS_INDIA_VIX_2008_2026.csv` in
 ## Current checkpoint
 
 - Data preprocessing: 4,050 aligned observations.
-- Training-period exploratory analysis and eight candidate features.
+- Training-period exploratory analysis and seven candidate features.
 - Chronological 70/15/15 split, with five-session target boundary exclusions.
 - 2,810 eligible training rows after feature warm-up and target filtering.
 - No model training or dashboard implementation yet.
