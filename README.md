@@ -4,7 +4,7 @@ Classification of significant NIFTY 50 movements over five trading sessions usin
 
 ## Research notebook
 
-[`notebooks/KAIROS.ipynb`](notebooks/KAIROS.ipynb) contains the complete executable research workflow through random forest evaluation. Open it in Google Colab from the repository's `main` branch.
+[`notebooks/KAIROS.ipynb`](notebooks/KAIROS.ipynb) contains the complete executable research workflow through gradient boosting evaluation. Open it in Google Colab from the repository's `main` branch.
 
 Place `KAIROS_NIFTY50_NSE_2006_2026.csv` and `KAIROS_INDIA_VIX_2008_2026.csv` in the working directory, or set `KAIROS_DATA_DIR` to the directory containing them. Run the notebook in order. It generates a six-column `KAIROS_COMBINED_CLEANED.csv` and a separate `KAIROS_VIX_IMPUTATION_AUDIT.csv`. The optional live acquisition code is not run by default.
 
@@ -21,6 +21,8 @@ Place `KAIROS_NIFTY50_NSE_2006_2026.csv` and `KAIROS_INDIA_VIX_2008_2026.csv` in
 | `src/logistic.py` | Standardized multinomial logistic regression |
 | `src/decision_tree.py` | Gini-based decision tree candidates |
 | `src/random_forest.py` | Bootstrap random forest candidates |
+| `src/gradient_boosting.py` | Sequential multiclass gradient boosting |
+| `tests/test_gradient_boosting.py` | Stage structure and sample weight checks |
 | `tests/test_random_forest.py` | Probability aggregation and reproducibility checks |
 | `tests/test_decision_tree.py` | Tree complexity and probability checks |
 | `tests/test_logistic.py` | Training-only scaling and probability checks |
@@ -45,7 +47,9 @@ Place `KAIROS_NIFTY50_NSE_2006_2026.csv` and `KAIROS_INDIA_VIX_2008_2026.csv` in
 - Decision tree validation macro F1: 0.3828 (unweighted), 0.3882 (balanced), 0.3616 (unrestricted diagnostic).
 - The unrestricted tree reached training macro F1 of 1.0 with depth 26, illustrating overfitting.
 - Random forest validation macro F1: 0.3133 (unweighted), 0.4274 (balanced); balanced forest accuracy 0.7350 and balanced accuracy 0.4956.
-- Further model comparison, tuning, final test evaluation and dashboard implementation remain pending.
+- Gradient boosting validation macro F1: 0.3136 (unweighted), 0.4179 (balanced); balanced accuracy 0.5155 for the balanced model.
+- Balanced logistic regression remains the leading initial candidate by validation macro F1 (0.4385).
+- Hyperparameter tuning, final test evaluation and dashboard implementation remain pending.
 
 ## Limitations
 
