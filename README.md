@@ -4,7 +4,7 @@ Classification of significant NIFTY 50 movements over five trading sessions usin
 
 ## Research notebook
 
-[`notebooks/KAIROS.ipynb`](notebooks/KAIROS.ipynb) contains the complete executable research workflow through final test evaluation. Open it in Google Colab from the repository's `main` branch.
+[`notebooks/KAIROS.ipynb`](notebooks/KAIROS.ipynb) contains the complete executable research workflow through V2 directional and auxiliary risk experiments. Open it in Google Colab from the repository's `main` branch.
 
 Place `KAIROS_NIFTY50_NSE_2006_2026.csv` and `KAIROS_INDIA_VIX_2008_2026.csv` in the working directory, or set `KAIROS_DATA_DIR` to the directory containing them. Run the notebook in order. It generates a six-column `KAIROS_COMBINED_CLEANED.csv` and a separate `KAIROS_VIX_IMPUTATION_AUDIT.csv`. The optional live acquisition code is not run by default.
 
@@ -25,6 +25,9 @@ Place `KAIROS_NIFTY50_NSE_2006_2026.csv` and `KAIROS_INDIA_VIX_2008_2026.csv` in
 | `src/tuning.py` | Training-only expanding-window grid search |
 | `src/ablation.py` | Matched feature-set comparisons and CV selection |
 | `src/final_evaluation.py` | Test prediction records and score checks |
+| `src/v2.py` | Causal feature expansion, directional and risk model searches |
+| `tests/test_v2.py` | Causal features and probability/decision checks |
+| `docs/v2_results.md` | V2 findings and model disposition |
 | `tests/test_final_evaluation.py` | Prediction alignment and probability checks |
 | `tests/test_ablation.py` | Feature-set and selection-independence tests |
 | `docs/selected_model.json` | Locked configuration before final test scoring |
@@ -65,8 +68,11 @@ Place `KAIROS_NIFTY50_NSE_2006_2026.csv` and `KAIROS_INDIA_VIX_2008_2026.csv` in
 - Final test evaluation (603 rows, forecast dates 2024-06-04 to 2026-11-06): selected forest macro F1 0.4091, accuracy 0.8159, balanced accuracy 0.3926; price-only forest macro F1 0.3839; momentum 0.3647; majority class 0.3143.
 - Selected forest correctly classified 12 of 42 major rises and none of 23 major declines. It incorrectly flagged 58 ordinary observations as major. Configuration remains unchanged.
 - Section 17 exports test prediction records and aggregate metrics locally. The repeated validation comparisons are exploratory; test outcomes overlap and scores are uncalibrated. Reliable trading performance is not established.
-- Explainability, model packaging and dashboard implementation remain pending.
+- V2: 22 candidate features, matched training rows (2,770), four chronological folds, 1,152 directional configurations (32 fitted configurations × 36 decision rules), and 16 auxiliary binary model configurations. Original seven features were selected for both models.
+- V2 Extra Trees historical test macro F1 0.4040, accuracy 0.7877, down recall 0.0870 and up recall 0.2619. V1 remains the directional reference; no overall improvement established.
+- Auxiliary logistic risk model: historical test AP 0.2584, precision 0.4516, recall 0.2154, 14 correct warnings and 17 false alarms. Raw VIX ranking AP 0.2966. The risk model does not establish superiority over VIX.
+- Sections 18–19 generate fitted research model bundles, predictions and diagnostics in the `v2/` output folder. Raw/derived market data and model binaries are kept local. Dashboard and independent forward validation remain pending.
 
 ## Limitations
 
-The provisional ±3% threshold is a research choice. The historical snapshot has been examined in earlier experiments; the test period is a procedural holdout, not independent external validation. Data redistribution permissions remain unverified, so CSV files and notebook outputs are not committed. AI-assisted development and editing were used; the implementation and results require independent review.
+The provisional ±3% threshold is a research choice. The historical snapshot has been examined in earlier experiments; the test period is a procedural holdout for V1 and an already-inspected retrospective comparison for V2, not independent external validation. Data redistribution permissions remain unverified, so CSV files and notebook outputs are not committed. AI-assisted development and editing were used; the implementation and results require independent review.
