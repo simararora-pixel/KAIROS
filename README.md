@@ -4,7 +4,7 @@ Classification of significant NIFTY 50 movements over five trading sessions usin
 
 ## Research notebook
 
-[`notebooks/KAIROS.ipynb`](notebooks/KAIROS.ipynb) contains the complete executable research workflow through gradient boosting evaluation. Open it in Google Colab from the repository's `main` branch.
+[`notebooks/KAIROS.ipynb`](notebooks/KAIROS.ipynb) contains the complete executable research workflow through chronological hyperparameter tuning. Open it in Google Colab from the repository's `main` branch.
 
 Place `KAIROS_NIFTY50_NSE_2006_2026.csv` and `KAIROS_INDIA_VIX_2008_2026.csv` in the working directory, or set `KAIROS_DATA_DIR` to the directory containing them. Run the notebook in order. It generates a six-column `KAIROS_COMBINED_CLEANED.csv` and a separate `KAIROS_VIX_IMPUTATION_AUDIT.csv`. The optional live acquisition code is not run by default.
 
@@ -22,6 +22,8 @@ Place `KAIROS_NIFTY50_NSE_2006_2026.csv` and `KAIROS_INDIA_VIX_2008_2026.csv` in
 | `src/decision_tree.py` | Gini-based decision tree candidates |
 | `src/random_forest.py` | Bootstrap random forest candidates |
 | `src/gradient_boosting.py` | Sequential multiclass gradient boosting |
+| `src/tuning.py` | Training-only expanding-window grid search |
+| `tests/test_tuning.py` | Fold gap, outcome date and grid checks |
 | `tests/test_gradient_boosting.py` | Stage structure and sample weight checks |
 | `tests/test_random_forest.py` | Probability aggregation and reproducibility checks |
 | `tests/test_decision_tree.py` | Tree complexity and probability checks |
@@ -49,7 +51,10 @@ Place `KAIROS_NIFTY50_NSE_2006_2026.csv` and `KAIROS_INDIA_VIX_2008_2026.csv` in
 - Random forest validation macro F1: 0.3133 (unweighted), 0.4274 (balanced); balanced forest accuracy 0.7350 and balanced accuracy 0.4956.
 - Gradient boosting validation macro F1: 0.3136 (unweighted), 0.4179 (balanced); balanced accuracy 0.5155 for the balanced model.
 - Balanced logistic regression remains the leading initial candidate by validation macro F1 (0.4385).
-- Hyperparameter tuning, final test evaluation and dashboard implementation remain pending.
+- Hyperparameter search: 36 configurations, four chronological folds, 144 CV fits, five-session gaps with outcome-date checks. Each family winner is refitted on all training observations.
+- Tuned validation macro F1: Logistic 0.4365, Tree 0.3760, Forest 0.4422, Boosting 0.4076. Tuned forest also has the highest mean CV macro F1 (0.3888).
+- Section 15 exports the grid-search diagnostics to `KAIROS_CV_SEARCH.csv` in the dataset export directory.
+- Final model selection, test scoring and dashboard implementation remain pending. The repeatedly examined validation period is exploratory.
 
 ## Limitations
 
